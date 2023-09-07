@@ -1,0 +1,33 @@
+<h1>Отзывы</h1>
+<div id="comments-list">
+</div>
+
+<script>
+  // Запрашиваем список всех комментариев с сервера
+  const commentsTableBody = document.querySelector('#comments-list');
+
+  fetch('/comment/commentsAll')
+    .then(response => response.json())
+    .then(data => {
+      // Добавляем каждый комментарий в таблицу
+      commentsTableBody.innerHTML = `
+         ${data.map(comment => `
+<div id="commentsDiv">
+<div class="row-container">
+            <h2>Услуга: ${comment.service.name}</h2>
+</div>
+<div class="column-container">
+            <h1>${comment.user.username}</h1>
+            <h3>${comment.comment_text}</h3>
+            <span>Опубликован: ${comment.created_at.substring(0, 10)}</span>
+            </div>
+</div>
+
+        `).join('')}
+        `;
+    })
+    .catch(error => {
+      console.error(error);
+      alert('Ошибка при загрузке списка комментариев');
+    });
+</script>

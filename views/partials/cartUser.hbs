@@ -1,0 +1,82 @@
+<h1>Моя корзина</h1>
+<table>
+  <thead>
+  <tr>
+  </tr>
+  </thead>
+  <tbody id="results">
+  </tbody>
+</table>
+<script>
+  async function getUserServicesById() {
+    const userId = localStorage.getItem('user_id'); // получаем user_id из localStorage
+    const headers = {
+      'Content-Type': 'application/json'
+    };
+    console.log(userId);
+    console.log(headers);
+    const response = await fetch(`/cart/services/${userId}`)
+    const data = await response.json();
+
+    const resultsTable = document.getElementById('results');
+    resultsTable.innerHTML = '';
+    if (Array.isArray(data) && data.length === 0) {
+      resultsTable.innerHTML = '<p>Корзина пользователя пуста</p>';
+    } else if (Array.isArray(data)) {
+      const headerRow = resultsTable.insertRow();
+// Создаем ячейку для заголовка user_id
+      const serviceIdHeaderCell = document.createElement("th");
+      serviceIdHeaderCell.textContent = "Услуга";
+      headerRow.appendChild(serviceIdHeaderCell);
+// Создаем ячейку для заголовка service_id
+      const priceIdHeaderCell = document.createElement("th");
+      priceIdHeaderCell.textContent = "Цена, р";
+      headerRow.appendChild(priceIdHeaderCell);
+      const dateIdHeaderCell = document.createElement("th");
+      dateIdHeaderCell.textContent = "Введите дату брони";
+      headerRow.appendChild(dateIdHeaderCell);
+      const buttonIdHeaderCell = document.createElement("th");
+      buttonIdHeaderCell.textContent = "Бронь";
+      headerRow.appendChild(buttonIdHeaderCell);
+
+      data.forEach((item) => {
+        const row = resultsTable.insertRow();
+        const userIdCell = row.insertCell();
+        userIdCell.textContent = item.service.name;
+        const serviceIdCell = row.insertCell();
+        serviceIdCell.textContent = item.service.price;
+
+        const dateInput = document.createElement('input');
+        dateInput.type = 'date';
+        row.insertCell().appendChild(dateInput);
+
+        const bookButton = document.createElement('button');
+        bookButton.textContent = 'Забронировать';
+        bookButton.addEventListener('click', async () => {
+          const userId = item.user_id;
+          const serviceId = item.service_id;
+          const bookingDate1 = dateInput.value;
+          console.log('bookingDate', bookingDate1);
+          const bookingDate = bookingDate1 + 'T12:00:00.000Z';
+          console.log('bookingDate', bookingDate);
+
+          const response = await fetch('/booking', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              user_id: userId,
+              service_id: serviceId,
+              booking_date: bookingDate,
+            }),
+          });
+          const result = await response.json();
+          console.log(result);
+        });
+        row.insertCell().appendChild(bookButton);
+      });
+    }
+  }
+  getUserServicesById();
+</script>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ru">
+{{> shared}}
+<body>
+{{> header}}
+<main>
+  <h1>Мои бронирования</h1>
+  <div id="booking-list">
+  </div>
+  <script>
+    const resultsTable = document.getElementById('booking-list');
+    const userId = localStorage.getItem('user_id'); // получаем user_id из localStorage
+      const headers = {
+        'Content-Type': 'application/json'
+      };
+      console.log(userId);
+      console.log(headers);
+      fetch(`/booking/user/${userId}`)
+        .then(response => response.json())
+        .then(data => {
+          resultsTable.innerHTML = `
+         ${data.map(comment => `
+<div id="commentsDiv">
+<div id="row-container3">
+<!--      <img src="assets/img/000010250012.jpg" alt="sample87" />-->
+            <h2>Услуга: ${comment.service.name}</h2>
+            <h3>${comment.service.price}</h3>
+            <span>Дата брони: ${comment.booking_date.substring(0, 10)}</span>
+<button onclick="handleLogout()">Отменить</button>
+            </div>
+</div>
+
+        `).join('')}
+        `;
+        });
+
+      // resultsTable.innerHTML = '';
+      // if (Array.isArray(data) && data.length === 0) {
+      //   resultsTable.innerHTML = '<p>Бронирований нет</p>';
+
+    async function handleLogout() {
+            const response = await fetch(`/booking/${item.id}`, {
+              method: 'DELETE'
+            });
+            if (response.status === 200) {
+              alert('бронирование успешно удалено');
+              getBookingsById();
+            } else if (response.status === 404) {
+              alert('бронирование не удалена или не найдена');
+            } else {
+              alert('Ошибка сервера, такой id не найден.');
+            }
+          }
+
+  </script>
+</main>
+{{> footer}}
+</body>
+</html>

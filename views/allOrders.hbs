@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ru">
+{{> shared}}
+<body>
+{{> header}}
+<main>
+  <div style="display: flex; align-items: flex-start; flex-direction: column">
+  <h3>
+    Добавить новую услугу
+  </h3>
+  <form id="login-form">
+    <fieldset>
+      <h2 class="fs-title">Введите данные:</h2>
+      <input type="text" name="username" placeholder="Название" required />
+      <input type="password" name="password" placeholder="Описание" style="height: 50px;" />
+      <input type="password" name="password" placeholder="Цена" />
+
+      <input type="submit" class="next action-button" value="Создать" />
+    </fieldset>
+  </form>
+  </div>
+  <div>
+  <h3>
+    Удалить услугу
+  </h3>
+  <form style="background-color: #f9f9f9; margin: 10px; padding: 10px">
+    <label for="dropdown">Выберите услугу которую хотите удалить:</label>
+    <select id="dropdown">
+      <option value="1">Портретная съемка</option>
+      <option value="2">Lovestory</option>
+      <option value="3">Стрит-стайл</option>
+    </select>
+    <button type="button">Удалить</button>
+  </form>
+  </div>
+  <h3>Бронирования пользователей:</h3>
+  <table>
+    <thead>
+    <tr>
+    </tr>
+    </thead>
+    <tbody id="results_all">
+    </tbody>
+  </table>
+</main>
+{{> footer}}
+</body>
+</html>
+<script>
+  async function getUserServices() {
+    const response = await fetch('booking/bookingAll');
+    const data = await response.json();
+    const resultsTable = document.getElementById('results_all');
+    resultsTable.innerHTML = '';
+
+    const headerRow2 = resultsTable.insertRow();
+    const serviceIdHeaderCell1 = document.createElement("th");
+    serviceIdHeaderCell1.textContent = "Пользователь";
+    headerRow2.appendChild(serviceIdHeaderCell1);
+    const serviceIdHeaderCell11 = document.createElement("th");
+    serviceIdHeaderCell11.textContent = "Услуга";
+    headerRow2.appendChild(serviceIdHeaderCell11);
+    const serviceIdHeaderCell111 = document.createElement("th");
+    serviceIdHeaderCell111.textContent = "Дата брони";
+    headerRow2.appendChild(serviceIdHeaderCell111);
+
+    data.forEach((item) => {
+      const row = resultsTable.insertRow();
+      const userIdCell = row.insertCell();
+      userIdCell.textContent = item.user.username;
+      const serviceIdCell = row.insertCell();
+      serviceIdCell.textContent = item.service.name;
+      const dateCell = row.insertCell();
+      dateCell.textContent = item.booking_date.substring(0, 10);
+    });
+  }
+  getUserServices();
+</script>

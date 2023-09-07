@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ru">
+{{> shared}}
+<body>
+{{> header}}
+<main>
+<form id="msform">
+  <fieldset>
+    <h2 class="fs-title">Войдите</h2>
+    <input type="text" name="username" placeholder="Username" required />
+    <input type="password" name="password" placeholder="Password" />
+    <input type="submit" class="next action-button" value="Войти" />
+  </fieldset>
+</form>
+</main>
+{{> footer}}
+</body>
+</html>
+
+<script>
+  const form = document.querySelector('#msform');
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const username = formData.get('username');
+    const password = formData.get('password');
+
+      const user = { username, password };
+      try {
+        const response = await fetch('/user/users/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ user }),
+        });
+        const data = await response.json();
+        console.log('token:', data.user.token)
+        console.log('user_id:', data.user.user_id)
+
+        localStorage.setItem('token', data.user.token);
+        localStorage.setItem('username', data.user.username);
+        localStorage.setItem('user_id', data.user.user_id);
+        document.getElementById('menu-nav').style.display = 'none';
+        document.getElementById('login-status').style.display = 'flex';
+        const stat = data.user.is_admin;
+        console.log('admin-status:', stat);
+
+        if (stat === 'true'){
+          localStorage.setItem('admin', true);
+        } else {
+          localStorage.setItem('loggedIn', true);
+        }
+
+        if (localStorage.getItem('loggedIn') === 'true') {
+          document.getElementById('login-status').innerHTML = `
+
+<nav  >
+      <ul >
+        <li class="item">
+          <span>Logged in as ${username} </span>
+        </li>
+        <li class="item">
+          <a href="/cart">Корзина</a>
+        </li>
+        <li class="item">
+          <a href="/orders">Мои бронирования</a>
+        </li>
+        <li class="item">
+          <button onclick="handleLogout()">Выйти</button>
+        </li>
+      </ul>
+    </nav>
+`;
+        } else if (localStorage.getItem('admin') === 'true') {
+          document.getElementById('login-status').innerHTML = `
+
+<nav  >
+      <ul >
+        <li class="item">
+          <span>Logged in as ${username} </span>
+        </li>
+        <li class="item">
+          <a href="/allOrders">Администрирование</a>
+        </li>
+        <li class="item">
+          <button onclick="handleLogout()">Выйти</button>
+        </li>
+      </ul>
+    </nav>
+`;
+        }
+        // document.getElementById('item-login').style.display = 'inline-block';
+
+        console.log('admin:', localStorage.getItem('admin'))
+        console.log('loggedIn:', localStorage.getItem('loggedIn'))
+        // window.location.href = '/page';
+      } catch (error) {
+        console.error(error);
+        alert('Ошибка входа');
+      }
+  });
+
+</script>
+

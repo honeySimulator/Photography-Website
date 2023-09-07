@@ -1,0 +1,163 @@
+<div>
+  <section>
+    <div class="services">
+      <div class="service">
+        <a href="#portrait-section">
+        <div class="image" style="background-image: url('https://assets.community.lomography.com/78/4d57d52c8b2821e89a81c788bb91ed93a12e14/422x576x2.jpg?auth=a0a790626dfe25ed549cace10218b4b2dc79c2e9')">
+          <div class="overlay">
+            <div class="name">Портретная съемка</div>
+            <div class="price">от 3000 руб.</div>
+          </div>
+        </div>
+        </a>
+      </div>
+      <div class="service">
+        <a href="#lovestory-section">
+        <div class="image" style="background-image: url('https://assets.community.lomography.com/31/789fea8c4bc8dff09f4276bbfb392b5d94811a/2048x3089x2.jpg?auth=a34f4023600b495c22eccec3ce80405179db2756')">
+          <div class="overlay">
+            <div class="name">Lovestory</div>
+            <div class="price">от 4000 руб.</div>
+          </div>
+        </div>
+        </a>
+      </div>
+      <div class="service">
+        <a href="#street-section">
+        <div class="image" style="background-image: url('https://assets.community.lomography.com/2c/81ff3d98028b3d1ca49ac18f82469b232b23b9/1216x1215x2.jpg?auth=8a0ec5bfdca838d0848d148f6be6c029c5e67723')">
+          <div class="overlay">
+            <div class="name">Стрит-стайл</div>
+            <div class="price">от 3000 руб.</div>
+          </div>
+        </div>
+        </a>
+      </div>
+    </div>
+
+    <aside>
+      <p>
+        <em>Life is a moment</em>
+      </p>
+    </aside>
+
+    <div id = "row-container2">
+    <figure id="portrait-section" class="snip1336">
+      <img src="assets/img/000010250012.jpg" alt="sample87" />
+      <figcaption>
+        <h2>Портретная съемка<br><br>от 3000 руб.</h2>
+        <p>Портретная съемка – это искусство запечатлеть лучшие черты лица и характера ваших моделей. В процессе съемки создаются неповторимые фотографии, которые отображают индивидуальность каждого человека. Съемка проводится в студии или на открытом воздухе.
+        <br><br>Продолжительность: 2 часа</p>
+        <a href="#" class="info" id="add-to-cart" data-service-id="1">Добавить услугу в корзину</a>
+      </figcaption>
+    </figure>
+
+    <script>
+      document.getElementById('add-to-cart').addEventListener('click', async (event) => {
+        event.preventDefault();
+        const user_Id = localStorage.getItem('user_id'); // получаем user_id из localStorage
+        const serviceId = document.querySelector('#portrait-section .info').dataset.serviceId; // получаем service_id из атрибута data-service-id
+        console.log('serviceId', serviceId)
+        const headers = {
+          'Content-Type': 'application/json'
+        };
+        const body = JSON.stringify({ service_id: serviceId });
+
+        const response = await fetch(`/cart/${user_Id}`, {
+          method: 'POST',
+          headers,
+          body})
+
+        if (response.status === 201) {
+          alert('Услуга успешно добавлена в корзину.');
+        } else if (response.status === 404) {
+          alert('Услуга уже добавлена или не найдена.');
+        }
+        });
+    </script>
+    {{> commentPortrait}}
+    </div>
+
+    <div id = "row-container2">
+    <figure id="lovestory-section" class="snip1336">
+      <img src="assets/img/000011200027.jpg" alt="sample87" />
+      <figcaption>
+        <h2>Lovestory<br><br>от 4000 руб.</h2>
+        <p>Lovestory - это съемка для влюбленных пар, которая поможет запечатлеть эмоции и чувства на долгую память. В рамках услуги будет создана неповторимая атмосфера, подобраны красивые локации, а также я помогу проявить нежность и любовь перед камерой. Получите яркие и романтические фотографии, которые будут напоминать о самых приятных моментах вашей жизни.
+          <br><br>Продолжительность: 2 часа</p>
+        <a href="#" class="info" id="add-to-cart-lovestory" data-service-id="2">Добавить услугу в корзину</a>
+      </figcaption>
+    </figure>
+
+    <script>
+      document.getElementById('add-to-cart-lovestory').addEventListener('click', async (event) => {
+        event.preventDefault();
+        const user_Id = localStorage.getItem('user_id'); // получаем user_id из localStorage
+        const serviceId = document.querySelector('#lovestory-section .info').dataset.serviceId; // получаем service_id из атрибута data-service-id
+        console.log('serviceId', serviceId)
+        const headers = {
+          'Content-Type': 'application/json'
+        };
+        const body = JSON.stringify({ service_id: serviceId });
+
+        const response = await fetch(`/cart/${user_Id}`, {
+          method: 'POST',
+          headers,
+          body})
+
+        if (response.status === 201) {
+          alert('Услуга успешно добавлена в корзину.');
+        } else if (response.status === 404) {
+          alert('Услуга уже добавлена или не найдена.');
+        }
+      });
+    </script>
+    {{> commentLove}}
+    </div>
+
+    <div id = "row-container2">
+    <figure id="street-section" class="snip1336">
+      <img src="assets/img/000011200007.jpg" alt="sample87" />
+      <figcaption>
+        <h2>Стрит-стайл<br><br>от 3000 руб.</h2>
+        <p>Стрит-стайл съемка - это возможность запечатлеть уличный стиль в своей лучшей форме. Мы создадим креативные фотографии, подчеркивающие вашу индивидуальность, идеально передавая атмосферу городской суеты. Будьте смелыми, экспериментируйте с образами и получайте уникальные и неповторимые кадры.
+          <br><br>Продолжительность: 1 час</p>
+        <a href="#" class="info" id="add-to-cart-street" data-service-id="3">Добавить услугу в корзину</a>
+      </figcaption>
+    </figure>
+
+    <script>
+      document.getElementById('add-to-cart-street').addEventListener('click', async (event) => {
+        event.preventDefault();
+        const user_Id = localStorage.getItem('user_id'); // получаем user_id из localStorage
+        const serviceId = document.querySelector('#street-section .info').dataset.serviceId; // получаем service_id из атрибута data-service-id
+        console.log('serviceId', serviceId)
+        const headers = {
+          'Content-Type': 'application/json'
+        };
+        const body = JSON.stringify({ service_id: serviceId });
+
+        const response = await fetch(`/cart/${user_Id}`, {
+          method: 'POST',
+          headers,
+          body})
+
+        if (response.status === 201) {
+          alert('Услуга успешно добавлена в корзину.');
+        } else if (response.status === 404) {
+          alert('Услуга уже добавлена или не найдена.');
+        }
+      });
+    </script>
+    {{> commentStreet}}
+    </div>
+
+  </section>
+  <div id="todo">
+    <div class="add">
+      <input type="text" placeholder="To do..." />
+      <button><i class="fa fa-plus"></i></button>
+    </div>
+    <div class="todos">
+    </div>
+  </div>
+  <br><br>
+</div>

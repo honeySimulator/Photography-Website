@@ -1,0 +1,91 @@
+<!-- header.hbs -->
+<header>
+  <div>
+  {{> login}}
+  <div id="main-nav2">
+    <h1>Бронирование фото-услуг</h1>
+    <nav id = "menu-nav">
+      <ul>
+        <li class="item">
+          <a href="/loginPage">Войти</a>
+        </li>
+        <li class="item">
+          <a href="/signupPage">Зарегистрироваться</a>
+        </li>
+      </ul>
+    </nav>
+    <div id="login-status">
+
+    </div>
+  </div>
+    {{> menu}}
+
+  </div>
+</header>
+
+<script>
+  function handleLogout() {
+    if (localStorage.getItem('loggedIn') === 'true') {
+      localStorage.removeItem('loggedIn');
+    } else if (localStorage.getItem('admin') === 'true') {
+      localStorage.removeItem('admin');
+    }
+    localStorage.removeItem('username');
+    localStorage.removeItem('token');
+    document.getElementById('menu-nav').style.display = 'flex';
+    document.getElementById('login-status').innerHTML = '';
+    document.getElementById('login-status').style.display = 'none';
+    // document.getElementById('item-login').style.display = 'none';
+
+  }
+
+  window.onload = function() {
+  if (localStorage.getItem('loggedIn') === 'true') {
+document.getElementById('menu-nav').style.display = 'none';
+document.getElementById('login-status').style.display = 'flex';
+
+document.getElementById('login-status').innerHTML = `
+
+<nav  >
+  <ul >
+    <li class="item">
+      <span>Logged in as ${localStorage.getItem('username')} </span>
+    </li>
+    <li class="item">
+      <a href="/cart">Корзина</a>
+    </li>
+    <li class="item">
+      <a href="/orders">Мои бронирования</a>
+    </li>
+    <li class="item">
+      <button onclick="handleLogout()">Выйти</button>
+    </li>
+  </ul>
+</nav>
+`;      // document.getElementById('item-login').style.display = 'inline-block';
+  } else if (localStorage.getItem('admin') === 'true') {
+    document.getElementById('menu-nav').style.display = 'none';
+    document.getElementById('login-status').style.display = 'flex';
+    document.getElementById('login-status').innerHTML = `
+
+<nav  >
+      <ul >
+        <li class="item">
+          <span>Logged in as ${localStorage.getItem('username')} </span>
+        </li>
+        <li class="item">
+          <a href="/allOrders">Администрирование</a>
+        </li>
+        <li class="item">
+          <button onclick="handleLogout()">Выйти</button>
+        </li>
+      </ul>
+    </nav>
+`;
+} else {
+document.getElementById('menu-nav').style.display = 'flex';
+document.getElementById('login-status').innerHTML = '';
+document.getElementById('login-status').style.display = 'none';
+}
+}
+</script>

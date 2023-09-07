@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ru">
+{{> shared}}
+<body>
+{{> header}}
+<main>
+  <form id="msform">
+    <fieldset>
+      <h2 class="fs-title">Зарегистрируйтесь</h2>
+      <input type="username" name="username" placeholder="Username" />
+      <input type="password" name="password" placeholder="Password" />
+      <input type="submit" class="next action-button" value="Зарегистрироваться" />
+    </fieldset>
+  </form>
+</main>
+{{> footer}}
+</body>
+</html>
+
+<script>
+  const form = document.querySelector('#msform');
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const username = formData.get("username");
+    const password = formData.get("password");
+
+    const user = { username, password };
+    try {
+      const response = await fetch("/user/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ user })
+      });
+      const data = await response.json();
+      if (response.status === 201) {
+        alert("Поздравляем! Вы зарегистрировались.");
+      } else {
+        alert("Произошла ошибка при регистрации пользователя");
+      }
+    }
+    catch (error) {
+      console.error(error);
+    }
+  })
+</script>

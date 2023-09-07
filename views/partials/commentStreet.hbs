@@ -1,0 +1,41 @@
+<form id = "form-comments">
+  <label for="comment-text">Оставить отзыв о стрит-стайл съемке:</label><br>
+  <textarea id="comment-text-street" name="comment-text"></textarea><br>
+  <a id="publish-comment-street" data-service-id="3">Опубликовать </a>
+</form>
+<script>
+  // Получаем user_id из localStorage
+  // const user_id = localStorage.getItem('user_id');
+
+  // Обработчик события нажатия на кнопку "Опубликовать отзыв"
+  document.getElementById('publish-comment-street').addEventListener('click', (event) => {
+    event.preventDefault(); // Отменяем стандартное поведение кнопки
+
+    // Получаем текст комментария из поля ввода
+    const comment_text = document.getElementById('comment-text-street').value;
+
+    // Получаем service_id из атрибута data-service-id кнопки
+    const service_id = document.getElementById('publish-comment-street').getAttribute('data-service-id');
+
+    // Вызываем @Post запрос с помощью fetch API
+    fetch(`/comment/${service_id}/${user_id}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        comment_text: comment_text
+      })
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Ошибка при отправке комментария');
+        }
+        alert('Комментарий успешно отправлен');
+        document.getElementById('comment-text').value = ''; // Очищаем поле ввода
+      })
+      .catch(error => {
+        alert(error.message);
+      });
+  });
+</script>

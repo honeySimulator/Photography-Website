@@ -1,0 +1,92 @@
+
+<!--&lt;!&ndash;<div id="login-form">&ndash;&gt;-->
+<!--&lt;!&ndash;  <form id="login-form" method="post" class="form">&ndash;&gt;-->
+<!--&lt;!&ndash;      <span>&ndash;&gt;-->
+<!--&lt;!&ndash;      <label for="username">Имя пользователя:</label>&ndash;&gt;-->
+<!--&lt;!&ndash;      <input type="text" id="username" name="username" required>&ndash;&gt;-->
+<!--&lt;!&ndash;    </span>&ndash;&gt;-->
+<!--&lt;!&ndash;    <span>&ndash;&gt;-->
+<!--&lt;!&ndash;      <label for="password">Пароль:</label>&ndash;&gt;-->
+<!--&lt;!&ndash;      <input type="password" id="password" name="password" required>&ndash;&gt;-->
+<!--&lt;!&ndash;    </span>&ndash;&gt;-->
+
+<!--&lt;!&ndash;    <input type="submit" value="Зарегистрироваться">&ndash;&gt;-->
+<!--&lt;!&ndash;    <input type="submit" value="Войти">&ndash;&gt;-->
+<!--&lt;!&ndash;  </form>&ndash;&gt;-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+<!--&lt;!&ndash;<div id="login-status"></div>&ndash;&gt;-->
+
+
+<!--<script>-->
+<!--  const form = document.querySelector('#login-form');-->
+<!--  form.addEventListener('submit', async (event) => {-->
+<!--    event.preventDefault();-->
+<!--    const formData = new FormData(event.target);-->
+<!--    const username = formData.get('username');-->
+<!--    const password = formData.get('password');-->
+
+<!--    if (event.submitter.value === 'Зарегистрироваться') {-->
+<!--    const body = { user: { username, password } };-->
+<!--    try {-->
+<!--      const response = await fetch('/user/register', {-->
+<!--        method: 'POST',-->
+<!--        headers: { 'Content-Type': 'application/json' },-->
+<!--        body: JSON.stringify(body),-->
+<!--      });-->
+<!--      const data = await response.json();-->
+<!--      alert('Произошла ошибка при регистрации пользователя');-->
+<!--      console.log(data);-->
+<!--    } catch (error) {-->
+<!--      console.error(error);-->
+<!--      alert('Поздравляем! Вы зарегистрировались.');-->
+
+<!--    }-->
+
+<!--    } else if (event.submitter.value === 'Войти') {-->
+<!--      const user = { username, password };-->
+<!--      try {-->
+<!--      const response = await fetch('/user/users/login', {-->
+<!--        method: 'POST',-->
+<!--        headers: { 'Content-Type': 'application/json' },-->
+<!--        body: JSON.stringify({ user }),-->
+<!--      });-->
+<!--      const data = await response.json();-->
+<!--      console.log('token:', data.user.token)-->
+<!--        console.log('user_id:', data.user.user_id)-->
+
+<!--        localStorage.setItem('token', data.user.token);-->
+<!--        localStorage.setItem('loggedIn', true);-->
+<!--        localStorage.setItem('username', data.user.username);-->
+<!--        localStorage.setItem('user_id', data.user.user_id);-->
+<!--        document.getElementById('login-form').style.display = 'none';-->
+<!--        document.getElementById('login-status').innerHTML = `Logged in as ${username} <button onclick="handleLogout()">Выйти</button>`;-->
+<!--        document.getElementById('item-login').style.display = 'inline-block';-->
+
+<!--        console.log('token:', localStorage.getItem('token'))-->
+<!--        // window.location.href = '/page';-->
+<!--      } catch (error) {-->
+<!--        console.error(error);-->
+<!--        alert('Ошибка входа');-->
+<!--      }-->
+<!--    }-->
+<!--  });-->
+<!--  function handleLogout() {-->
+<!--    localStorage.removeItem('loggedIn');-->
+<!--    localStorage.removeItem('username');-->
+<!--    localStorage.removeItem('token');-->
+<!--    document.getElementById('login-form').style.display = 'block';-->
+<!--    document.getElementById('login-status').innerHTML = '';-->
+<!--    document.getElementById('item-login').style.display = 'none';-->
+
+<!--  }-->
+
+<!--  window.onload = function() {-->
+<!--    if (localStorage.getItem('loggedIn') === 'true') {-->
+<!--      document.getElementById('login-form').style.display = 'none';-->
+<!--      document.getElementById('login-status').innerHTML = `Logged in as ${localStorage.getItem('username')} <button onclick="handleLogout()">Log out</button><button onclick="goToCart()">Корзина</button><button onclick="goToOrders()">Мои бронирования</button>`;-->
+<!--      document.getElementById('item-login').style.display = 'inline-block';-->
+
+<!--    }-->
+<!--  }-->
+<!--</script>-->
+

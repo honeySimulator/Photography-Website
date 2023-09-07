@@ -1,0 +1,36 @@
+<h3>Другие пользователи так же выбирали:</h3>
+<table>
+  <thead>
+  <tr>
+  </tr>
+  </thead>
+  <tbody id="results_all">
+  </tbody>
+</table>
+
+<script>
+  async function getUserServices() {
+    const response = await fetch('cart/cartAll');
+    const data = await response.json();
+    const resultsTable = document.getElementById('results_all');
+    resultsTable.innerHTML = '';
+
+    const headerRow2 = resultsTable.insertRow();
+// Создаем ячейку для заголовка user_id
+    const serviceIdHeaderCell1 = document.createElement("th");
+    serviceIdHeaderCell1.textContent = "Пользователь";
+    headerRow2.appendChild(serviceIdHeaderCell1);
+    const serviceIdHeaderCell11 = document.createElement("th");
+    serviceIdHeaderCell11.textContent = "Услуга";
+    headerRow2.appendChild(serviceIdHeaderCell11);
+
+    data.forEach((item) => {
+      const row = resultsTable.insertRow();
+      const userIdCell = row.insertCell();
+      userIdCell.textContent = item.user.username;
+      const serviceIdCell = row.insertCell();
+      serviceIdCell.textContent = item.service.name;
+    });
+  }
+  getUserServices();
+</script>
